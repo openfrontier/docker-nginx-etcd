@@ -5,7 +5,7 @@ server {
     server_name {{$custdir := printf "/%s/server_name" $dir}}{{getv $custdir}};
     client_max_body_size {{$custdir := printf "/%s/client_max_body_size" $dir}}{{getv $custdir}};
     location /{
-        proxy_pass http://{{$custdir := printf "/%s/proxy_pass" $dir}}{{getv $custdir}};; 
+        proxy_pass http://{{$custdir := printf "/%s/proxy_pass" $dir}}{{getv $custdir}};
         proxy_set_header    Host $host;
         proxy_set_header    X-Real-IP $remote_addr;
         proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
