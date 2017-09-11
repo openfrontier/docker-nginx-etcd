@@ -10,7 +10,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 RUN wget https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64 --no-check-certificate && \
     chmod +x confd-${CONFD_VERSION}-linux-amd64 && \
-    mv confd-${CONFD_VERSION}-linux-amd64 /usr/local/bin/confd && \
+    mv confd-${CONFD_VERSION}-linux-amd64 /usr/local/bin/confd
  
 # Copy configuration file.
 COPY ./confd /etc/confd
