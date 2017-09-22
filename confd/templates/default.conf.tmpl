@@ -11,13 +11,12 @@ server {
   {{$basedir := printf "/%s" $domain}}
   {{range $location_id := lsdir $basedir}}
     {{$location_key :=  printf "/%s/%s/location" $domain $location_id}}
+    {{$propertiesdir := printf "/%s/%s/properties/*" $domain $location_id}}
+    {{$proxy_set_headerdir :=printf "/%s/%s/proxy_set_header/*" $domain $location_id}}
     location  {{getv $location_key}} {
-      {{$rundir := dir $location_key}}
-      {{$propertiesdir := printf "%s/properties/*" $rundir}}
       {{range gets $propertiesdir}}
         {{base .Key}} {{.Value}};
       {{end}}
-      {{$proxy_set_headerdir :=printf "%s/proxy_set_header/*" $rundir}}
       {{range gets $proxy_set_headerdir}}
         proxy_set_header {{base .Key}} {{.Value}};
       {{end}}
