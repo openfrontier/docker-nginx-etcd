@@ -3,13 +3,13 @@ server {
   {{$url := split (base $domain) ":"}}
     listen       {{index $url 1}};
     server_name  {{index $url 0}};
-  {{$custdir := printf "/%s/*" $domain}}
-  {{range gets $custdir}}
+  {{$basedir := printf "/%s/*" $domain}}
+  {{range gets $basedir}}
     {{base .Key}} {{.Value}};
   {{end}}
 
-  {{$custdir := printf "/%s" $domain}}
-  {{range $locationdir := lsdir $custdir}}
+  {{$basedir := printf "/%s" $domain}}
+  {{range $locationdir := lsdir $basedir}}
     {{$locationdir :=  printf "/%s/%s/location" $domain $locationdir}}
     location  {{getv $locationdir}} {
       {{$rundir := dir $locationdir}}
