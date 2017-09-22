@@ -9,10 +9,10 @@ server {
   {{end}}
 
   {{$basedir := printf "/%s" $domain}}
-  {{range $locationdir := lsdir $basedir}}
-    {{$locationdir :=  printf "/%s/%s/location" $domain $locationdir}}
-    location  {{getv $locationdir}} {
-      {{$rundir := dir $locationdir}}
+  {{range $location_id := lsdir $basedir}}
+    {{$location_id :=  printf "/%s/%s/location" $domain $location_id}}
+    location  {{getv $location_id}} {
+      {{$rundir := dir $location_id}}
       {{$propertiesdir := printf "%s/properties/*" $rundir}}
       {{range gets $propertiesdir}}
         {{base .Key}} {{.Value}};
