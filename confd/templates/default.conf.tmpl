@@ -20,7 +20,7 @@ server {
      
         {{$proxy_set_headerdir :=printf "%s/proxy_set_header/*" $rundir }}
         {{range gets $proxy_set_headerdir}}
-        proxy_set_headerdir {{base .Key}} {{.Value}};
+        proxy_set_header {{base .Key}} {{.Value}};
         {{end}}
     }
     {{end}}
