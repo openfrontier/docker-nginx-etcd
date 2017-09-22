@@ -1,6 +1,6 @@
 {{range $dir := lsdir "/"}}
 server {
-    {{ $url := split (base $dir) ":" }}
+    {{$url := split (base $dir) ":"}}
     listen       {{index $url 1}};
     server_name  {{index $url 0}};
     {{$custdir := printf "/%s/*" $dir}}
@@ -13,12 +13,12 @@ server {
     {{$locationdir :=  printf "/%s/%s/location" $dir $locationdir}}
     location  {{getv $locationdir}} {
         {{$rundir := dir $locationdir}}
-        {{$propertiesdir := printf "%s/properties/*" $rundir }}
+        {{$propertiesdir := printf "%s/properties/*" $rundir}}
         {{range gets $propertiesdir}} 
         {{base .Key}} {{.Value}};
         {{end}}
      
-        {{$proxy_set_headerdir :=printf "%s/proxy_set_header/*" $rundir }}
+        {{$proxy_set_headerdir :=printf "%s/proxy_set_header/*" $rundir}}
         {{range gets $proxy_set_headerdir}}
         proxy_set_header {{base .Key}} {{.Value}};
         {{end}}
