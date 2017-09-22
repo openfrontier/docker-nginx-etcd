@@ -1,16 +1,16 @@
-{{range $dir := lsdir "/"}}
+{{range $domain := lsdir "/"}}
 server {
-  {{$url := split (base $dir) ":"}}
+  {{$url := split (base $domain) ":"}}
     listen       {{index $url 1}};
     server_name  {{index $url 0}};
-  {{$custdir := printf "/%s/*" $dir}}
+  {{$custdir := printf "/%s/*" $domain}}
   {{range gets $custdir}}
     {{base .Key}} {{.Value}};
   {{end}}
 
-  {{$custdir := printf "/%s" $dir}}
+  {{$custdir := printf "/%s" $domain}}
   {{range $locationdir := lsdir $custdir}}
-    {{$locationdir :=  printf "/%s/%s/location" $dir $locationdir}}
+    {{$locationdir :=  printf "/%s/%s/location" $domain $locationdir}}
     location  {{getv $locationdir}} {
       {{$rundir := dir $locationdir}}
       {{$propertiesdir := printf "%s/properties/*" $rundir}}
