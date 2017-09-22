@@ -2,7 +2,7 @@
 
 ## Add keys to etcd 
 - etcdctl mkdir /nginx-config/project00/jenkins.example.com:80
-- etcdctl set /nginx-config/project00/jenkins.example.com:80/client_mas_body_size 500m
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/client_max_body_size 500m
 - etcdctl set /nginx-config/project00/jenkins.example.com:80/proxy_read_timeout 300
 -
 - etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/1
@@ -15,7 +15,7 @@
 -
 - etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header
 - etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/X-Forwarded-For $proxy_add_x_forwarded_for
-- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/X-Real-IP $remote_add
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/X-Real-IP $remote_addr
 - etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/Host $host
 -
 - etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/2
