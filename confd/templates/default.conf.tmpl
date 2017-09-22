@@ -1,18 +1,28 @@
 {{range $dir := lsdir "/"}}
 server {
-    listen {{$custdir := printf "/%s/port" $dir}}{{getv $custdir}};
-    server_name {{$custdir := printf "/%s/server_name" $dir}}{{getv $custdir}};
-
-    {{$custdir := printf "/%s/location/*" $dir}}{{range  gets $custdir}}
-    location {{$data := json .Value}}{{$data.LOCATION}} {
-         proxy_pass  http://{{$data := json .Value}}{{$data.PROXY_PASS}};
-         proxy_set_header    X-Forwarded-For    $proxy_add_x_forwarded_for;
-         proxy_set_header    X-Real-IP    $remote_addr;
-         proxy_set_header    Host    $host;
-         proxy_http_version    1.1;
+    {{ $url := split (base $dir) ":" }}
+    listen       {{index $url 1}};
+    server_name  {{index $url 0}};
+    {{$custdir := printf "/%s/*" $dir}}
+    {{range gets $custdir}}
+    {{base .Key}} {{.Value}};
     {{end}}
-         }
-
+    
+    {{$custdir := printf "/%s" $dir}}
+    {{range $locationdir := lsdir $custdir}}
+    {{$locationdir :=  printf "/%s/%s/location" $dir $locationdir}}
+    location  {{getv $locationdir}} {
+        {{$rundir := dir $locationdir}}
+        {{$propertiesdir := printf "%s/properties/*" $rundir }}
+        {{range gets $propertiesdir}} 
+        {{base .Key}} {{.Value}};
+        {{end}}
+     
+        {{$proxy_set_headerdir :=printf "%s/proxy_set_header/*" $rundir }}
+        {{range gets $proxy_set_headerdir}}
+        proxy_set_headerdir {{base .Key}} {{.Value}};
+        {{end}}
     }
+    {{end}}
+}
 {{end}}
-

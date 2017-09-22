@@ -1,23 +1,29 @@
 # How to use
 
 ## Add keys to etcd 
-- etcdctl mkdir /nginx-config/${PROJECT_NAME}/www
-- etcdctl mkdir /nginx-config/${PROJECT_NAME}/www/location
-- etcdctl set /nginx-config/${PROJECT_NAME}/www/port 443
-- etcdctl set /nginx-config/${PROJECT_NAME}/www/server_name www.example.com
-- etcdctl set /nginx-config/${PROJECT_NAME}/www/location/1 '{"LOCATION": "/www","PROXY_PASS": "www"}'
-- etcdctl set /nginx-config/${PROJECT_NAME}/www/location/2 '{"LOCATION": "/web","PROXY_PASS": "web"}'
-- etcdctl set /nginx-config/${PROJECT_NAME}/www/location/3 '{"LOCATION": "/","PROXY_PASS": "192.168.0.1"}'
-- etcdctl set /nginx-config/${PROJECT_NAME}/www/location/4 '{"LOCATION": "~ .*wp-login.*","PROXY_PASS": "192.168.0.2"}'
-- etcdctl mkdir /nginx-config/${PROJECT_NAME}/weixin
-- etcdctl mkdir /nginx-config/${PROJECT_NAME}/weixin/location
-- etcdctl set /nginx-config/${PROJECT_NAME}/weixin/port 80
-- etcdctl set /nginx-config/${PROJECT_NAME}/weixin/server_name weixin.example.com
-- etcdctl set /nginx-config/${PROJECT_NAME}/weixin/location/1 '{"LOCATION": "/weixin","PROXY_PASS": "weixin"}'
-- etcdctl set /nginx-config/${PROJECT_NAME}/weixin/location/2 '{"LOCATION": "/web","PROXY_PASS": "web"}'
-- etcdctl set /nginx-config/${PROJECT_NAME}/weixin/location/3 '{"LOCATION": "web/a","PROXY_PASS": "192.168.0.1"}'
-- etcdctl set /nginx-config/${PROJECT_NAME}/weixin/location/4 '{"LOCATION": "a~ .*wp-login.*","PROXY_PASS": "192.168.0.2"}'
+- etcdctl mkdir /nginx-config/project00/jenkins.example.com:80
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/client_mas_body_size 500m
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/proxy_read_timeout 300
 
+- etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/1
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/location /jenkins
+
+- etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/1/properties
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/properties/proxy_pass http://jenkins:8080
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/properties/proxy_redirect off
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/properties/proxy_send_timeout 300
+
+- etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/X-Forwarded-For $proxy_add_x_forwarded_for
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/X-Real-IP $remote_add
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/1/proxy_set_header/Host $host
+
+- etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/2
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/2/location /
+
+- etcdctl mkdir /nginx-config/project00/jenkins.example.com:80/2/properties
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/2/properties/root /usr/share/nginx/html
+- etcdctl set /nginx-config/project00/jenkins.example.com:80/2/properties/index index.html
 ## Create docker container
 #Add environment variable
 
