@@ -1,4 +1,4 @@
-FROM nginx:latest 
+FROM nginx:1.13
 MAINTAINER XJD 25635680@qq.com
 
 # Env information. 
