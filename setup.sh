@@ -2,12 +2,12 @@
 set -e
 
 # Get certificate
-count=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config/${PROJECT_NAME}-certificate/url > /dev/null 2>&1 | wc -l)
+list=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config/${PROJECT_NAME}-certificate/url)
+result=$(echo $?)
 
-if [ ${count} -eq 0 ]
+if [ ${result} -eq 0 ]
 then
-  confd -onetime -backend etcd -node http://${ETCD_CLIENT_IP}:2379 --prefix="/nginx-config/${PROJECT_NAME}"
-else
+  count=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config/${PROJECT_NAME}-certificate/url | wc -l)
   for((i=1;i<=${count} ;i++));
   do urls=`etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 get /nginx-config/${PROJECT_NAME}-certificate/url/$i`;
      etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 get /nginx-config/${PROJECT_NAME}-certificate/${urls}.pem > /${urls}.pem;
@@ -15,6 +15,8 @@ else
      chmod 600 /${urls}.pem;
      chmod 600 /${urls}.key;
   done
+  confd -onetime -backend etcd -node http://${ETCD_CLIENT_IP}:2379 --prefix="/nginx-config/${PROJECT_NAME}"
+else
   confd -onetime -backend etcd -node http://${ETCD_CLIENT_IP}:2379 --prefix="/nginx-config/${PROJECT_NAME}"
 fi
 
