@@ -13,7 +13,7 @@ then
     etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 get /nginx-config/${PROJECT_NAME}-certificate/${url}/pem > /${url}.pem;
     etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 get /nginx-config/${PROJECT_NAME}-certificate/${url}/key > /${url}.key;
     done
-    echo "Get certificate Success."
+    echo "Download complete."
 else
     echo "No certificate."
 fi
