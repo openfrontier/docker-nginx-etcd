@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -o pipefail
 
 # Get certificate
 list=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config/${PROJECT_NAME}-certificate)
