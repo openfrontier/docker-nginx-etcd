@@ -19,9 +19,8 @@
 
 ### https://web02.example.com with certificate
 
-- etcdctl set /nginx-config/${PROJECT_NAME}-certificate/url/1 web02.example.com
-- etcdctl set /nginx-config/${PROJECT_NAME}-certificate/web02.example.com.pem < /home/web02.example.com/full_chain.pem
-- etcdctl set /nginx-config/${PROJECT_NAME}-certificate/web02.example.com.key < /home/web02.example.com/private.key
+- etcdctl set /nginx-config/${PROJECT_NAME}-certificate/web02.example.com/pem < /home/web02.example.com/full_chain.pem
+- etcdctl set /nginx-config/${PROJECT_NAME}-certificate/web02.example.com/key < /home/web02.example.com/private.key
 
 - etcdctl set /nginx-config/${PROJECT_NAME}/web02.example.com:443/client_max_body_size 500m
 - etcdctl set /nginx-config/${PROJECT_NAME}/web02.example.com:443/root/location /
