@@ -1,11 +1,10 @@
 #!/bin/bash
-set -o pipefail
+set -e
 
 # Get certificate
-list=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config/${PROJECT_NAME}-certificate)
-result=$(echo $?)
+count=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config | grep ${PROJECT_NAME}-certificate | wc -l)
 
-if [ ${result} -eq 0 ]
+if [ ${count} -gt 0 ]
 then
     list=$(etcdctl --endpoints http://${ETCD_CLIENT_IP}:2379 ls /nginx-config/${PROJECT_NAME}-certificate | sed "s/\/nginx-config\/${PROJECT_NAME}-certificate\///g")
     for url in ${list}
